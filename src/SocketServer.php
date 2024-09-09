@@ -48,6 +48,19 @@ class SocketServer extends Stream
     // ---------- Configuration ---------------------------------------------------------------------------------------
 
     /**
+     * Set stream context.
+     * @param array|null $options
+     * @param array|null $params
+     * @return \Phrity\Net\SocketServer
+     */
+    public function setContext(array|null $options = null, array|null $params = null): self
+    {
+        stream_context_set_option($this->stream, $options ?? []);
+        stream_context_set_params($this->stream, $params ?? []);
+        return $this;
+    }
+
+    /**
      * Retrieve list of registered socket transports.
      * @return array List of registered transports.
      */

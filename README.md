@@ -69,7 +69,7 @@ class SocketStream extends Stream
     public function isBlocking(): bool|null; // If stream is blocking or not
     public function setBlocking(bool $enable): bool; // Change blocking mode
     public function setTimeout(int $seconds, int $microseconds = 0): bool; // Set timeout
-    public function readLine(int $length): string|null // Read a line from stream, up to $length bytes
+    public function readLine(int $length): string|null; // Read a line from stream, up to $length bytes
     public function closeRead(): void; // Closes the stream for further reading
     public function closeWrite(): void; // Closes the stream for further writing
 }
@@ -110,6 +110,7 @@ class SocketServer extends Stream {
 
     public function accept(int|null $timeout = null): SocketStream|null; // Accept connection on socket server
     public function getTransports(): array; // Get available transports
+    public function setContext(array|null $options = null, array|null $params = null): self; // Set stream context
     public function isBlocking(): bool|null; // If stream is blocking or not
     public function setBlocking(bool $enable): bool; // Change blocking mode
 }
