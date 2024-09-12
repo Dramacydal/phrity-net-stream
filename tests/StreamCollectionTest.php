@@ -80,7 +80,7 @@ class StreamCollectionTest extends TestCase
         $collection->attach($stream, 'my-key');
     }
 
-    public function testDetachhError(): void
+    public function testDetachError(): void
     {
         $collection = new StreamCollection();
         $this->expectException(TypeError::class);
@@ -97,7 +97,7 @@ class StreamCollectionTest extends TestCase
         pcntl_signal(SIGTERM, function () {
         });
         exec('php -r "usleep(1);posix_kill(' . getmypid() . ', SIGTERM);" > /dev/null 2>/dev/null &');
-        $changed = $collection->waitRead(10); // Should not block
+        $changed = $collection->waitRead(10);
         $this->assertCount(0, $changed);
     }
 

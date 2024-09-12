@@ -120,12 +120,7 @@ class StreamCollection implements Countable, Iterator
             stream_select($read, $write, $oob, $seconds);
             return $read;
         }, function (ErrorException $error) {
-            $re = '/^stream_select\(\): Unable to select \[4\]: Interrupted system call/';
-            if (preg_match($re, $error->getMessage())) {
-                // Select is interupted: return empty, try again
-                return [];
-            }
-            throw new StreamException(StreamException::COLLECT_SELECT_ERR);
+            return []; // Ignore, but don't use result
         });
 
         $ready = new self();
