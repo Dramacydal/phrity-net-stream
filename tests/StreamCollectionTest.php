@@ -87,6 +87,20 @@ class StreamCollectionTest extends TestCase
         $collection->detach(1);
     }
 
+    public function testRecoverableSelectError(): void
+    {
+        $uri = new Uri('tcp://0.0.0.0:8001');
+        $server = new SocketServer($uri);
+        $collection = new StreamCollection();
+        $collection->attach($server, '@server');
+
+        pcntl_signal(SIGTERM, function () {
+        });
+        exec('php -r "usleep(1);posix_kill(' . getmypid() . ', SIGTERM);" > /dev/null 2>/dev/null &');
+        $changed = $collection->waitRead(10); // Should not block
+        $this->assertCount(0, $changed);
+    }
+
     public function testEmptyCollection(): void
     {
         $collection = new StreamCollection();

@@ -3,6 +3,7 @@
 namespace Phrity\Net;
 
 use Countable;
+use ErrorException;
 use Iterator;
 use Phrity\Util\ErrorHandler;
 
@@ -118,7 +119,14 @@ class StreamCollection implements Countable, Iterator
             $write = $oob = [];
             stream_select($read, $write, $oob, $seconds);
             return $read;
-        }, new StreamException(StreamException::COLLECT_SELECT_ERR));
+        }, function (ErrorException $error) {
+            $re = '/^stream_select\(\): Unable to select \[4\]: Interrupted system call/';
+            if (preg_match($re, $error->getMessage())) {
+                // Select is interupted: return empty, try again
+                return [];
+            }
+            throw new StreamException(StreamException::COLLECT_SELECT_ERR);
+        });
 
         $ready = new self();
         foreach ($changed as $key => $resource) {
