@@ -3,6 +3,7 @@
 namespace Phrity\Net;
 
 use Countable;
+use ErrorException;
 use Iterator;
 use Phrity\Util\ErrorHandler;
 
@@ -118,7 +119,9 @@ class StreamCollection implements Countable, Iterator
             $write = $oob = [];
             stream_select($read, $write, $oob, $seconds);
             return $read;
-        }, new StreamException(StreamException::COLLECT_SELECT_ERR));
+        }, function (ErrorException $error) {
+            return []; // Ignore, but don't use result
+        });
 
         $ready = new self();
         foreach ($changed as $key => $resource) {

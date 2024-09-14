@@ -80,11 +80,25 @@ class StreamCollectionTest extends TestCase
         $collection->attach($stream, 'my-key');
     }
 
-    public function testDetachhError(): void
+    public function testDetachError(): void
     {
         $collection = new StreamCollection();
         $this->expectException(TypeError::class);
         $collection->detach(1);
+    }
+
+    public function testRecoverableSelectError(): void
+    {
+        $uri = new Uri('tcp://0.0.0.0:8001');
+        $server = new SocketServer($uri);
+        $collection = new StreamCollection();
+        $collection->attach($server, '@server');
+
+        pcntl_signal(SIGTERM, function () {
+        });
+        exec('php -r "usleep(1);posix_kill(' . getmypid() . ', SIGTERM);" > /dev/null 2>/dev/null &');
+        $changed = $collection->waitRead(10);
+        $this->assertCount(0, $changed);
     }
 
     public function testEmptyCollection(): void
