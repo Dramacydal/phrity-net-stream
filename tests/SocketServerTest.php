@@ -34,7 +34,12 @@ class SocketServerTest extends TestCase
         $this->assertTrue($server->isBlocking());
         $this->assertTrue($server->setBlocking(false));
         $this->assertFalse($server->isBlocking());
-        $this->assertSame($server, $server->setContext([]));
+        $this->assertSame($server, $server->setContext([
+            'http' => [
+                'header' => 'Host: Test',
+                'user_agent' => 'Test',
+            ],
+        ]));
         $this->assertEquals([
             'timed_out' => false,
             'blocked' => false,
