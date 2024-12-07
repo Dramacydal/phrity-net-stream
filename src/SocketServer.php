@@ -55,7 +55,9 @@ class SocketServer extends Stream
      */
     public function setContext(array|null $options = null, array|null $params = null): self
     {
-        stream_context_set_option($this->stream, $options ?? []);
+        foreach ($options ?? [] as $key => $value) {
+            stream_context_set_option($this->stream, $key, $value);
+        }
         stream_context_set_params($this->stream, $params ?? []);
         return $this;
     }
