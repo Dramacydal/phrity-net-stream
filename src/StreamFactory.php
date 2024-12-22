@@ -4,10 +4,8 @@ namespace Phrity\Net;
 
 use InvalidArgumentException;
 use Phrity\Util\ErrorHandler;
-use Psr\Http\Message\{
-    StreamFactoryInterface,
-    UriInterface
-};
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriInterface;
 use RuntimeException;
 
 /**

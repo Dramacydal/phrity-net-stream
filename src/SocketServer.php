@@ -53,7 +53,7 @@ class SocketServer extends Stream
      * @param array|null $params
      * @return \Phrity\Net\SocketServer
      */
-    public function setContext(array|null $options = null, array|null $params = null): self
+    public function setContext(?array $options = null, ?array $params = null): self
     {
         foreach ($options ?? [] as $wrapper => $wrapperOptions) {
             foreach ($wrapperOptions ?? [] as $option => $value) {
@@ -77,7 +77,7 @@ class SocketServer extends Stream
      * If server is in blocking mode.
      * @return bool|null
      */
-    public function isBlocking(): bool|null
+    public function isBlocking(): ?bool
     {
         return $this->getMetadata('blocked');
     }
@@ -103,7 +103,7 @@ class SocketServer extends Stream
      *     provided. Returns a specific key value if a key is provided and the
      *     value is found, or null if the key is not found.
      */
-    public function getMetadata($key = null): mixed
+    public function getMetadata($key = null)
     {
         if (!isset($this->stream)) {
             return null;
@@ -127,7 +127,7 @@ class SocketServer extends Stream
      * @return Phrity\Net\SocketStream|null The stream for opened conenction.
      * @throws StreamException if socket is closed
      */
-    public function accept(int|null $timeout = null): SocketStream|null
+    public function accept(?int $timeout = null): ?SocketStream
     {
         if (!isset($this->stream)) {
             throw new StreamException(StreamException::SERVER_CLOSED);

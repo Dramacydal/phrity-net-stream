@@ -5,14 +5,13 @@ namespace Phrity\Net;
 use InvalidArgumentException;
 use Phrity\Util\ErrorHandler;
 use Psr\Http\Message\StreamInterface;
-use Stringable;
 use Throwable;
 
 /**
  * Phrity\Net\Stream class.
  * @see https://www.php-fig.org/psr/psr-7/#34-psrhttpmessagestreaminterface
 */
-class Stream implements StreamInterface, Stringable
+class Stream implements StreamInterface
 {
     private static $readmodes = ['r', 'r+', 'w+', 'a+', 'x+', 'c+'];
     private static $writemodes = ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'];
@@ -82,7 +81,7 @@ class Stream implements StreamInterface, Stringable
      *     provided. Returns a specific key value if a key is provided and the
      *     value is found, or null if the key is not found.
      */
-    public function getMetadata(string|null $key = null): mixed
+    public function getMetadata(?string $key = null)
     {
         if (!isset($this->stream)) {
             return null;
@@ -160,7 +159,7 @@ class Stream implements StreamInterface, Stringable
      * Get the size of the stream if known.
      * @return int|null Returns the size in bytes if known, or null if unknown.
      */
-    public function getSize(): int|null
+    public function getSize(): ?int
     {
         if (!isset($this->stream)) {
             return null;

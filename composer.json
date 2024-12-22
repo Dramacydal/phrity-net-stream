@@ -17,21 +17,10 @@
             "Phrity\\Net\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Phrity\\Net\\Test\\": "tests/"
-        }
-    },
     "require": {
-        "php": "^8.0",
+        "php": "^7.4",
         "phrity/util-errorhandler": "^1.1",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^1.1 | ^2.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.0 | ^10.0 | ^11.0",
-        "php-coveralls/php-coveralls": "^2.0",
-        "phrity/net-uri": "^2.0",
-        "squizlabs/php_codesniffer": "^3.5"
     }
 }
